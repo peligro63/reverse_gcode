@@ -1041,13 +1041,13 @@ def cancel_open(event=None):
 
 loaded_file = None
 def open_file_guts(f, filtered=False, addrecent=True):
-    import subprocess
-    nst = ['rs274','-g',f,'-t', tooltable, '>' , '~/.srcngc' ]
-    st =' '.join(nst)
-    r = subprocess.Popen([st], shell=True)
-    r.wait()
-    print tooltable ,'!!!!'
-        
+    if srcngc :
+        import subprocess
+        nst = ['rs274','-g',f,'-t', tooltable, '>' , srcngc ]
+        st =' '.join(nst)
+        r = subprocess.Popen([st], shell=True)
+        r.wait()
+            
     if addrecent:
         add_recent_file(f)
     if not filtered:
@@ -2849,6 +2849,7 @@ editor = inifile.find("DISPLAY", "EDITOR")
 vars.has_editor.set(editor is not None)
 tooleditor = inifile.find("DISPLAY", "TOOL_EDITOR") or "tooledit"
 tooltable = inifile.find("EMCIO", "TOOL_TABLE")
+srcngc = inifile.find("EMCIO", "SRCNGC")
 lu = units(inifile.find("TRAJ", "LINEAR_UNITS"))
 a_axis_wrapped = inifile.find("AXIS_3", "WRAPPED_ROTARY")
 b_axis_wrapped = inifile.find("AXIS_4", "WRAPPED_ROTARY")
@@ -3392,4 +3393,3 @@ o.mainloop()
 live_plotter.stop()
 
 # vim:sw=4:sts=4:et:
-=============
