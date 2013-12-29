@@ -1,4 +1,22 @@
 #!/usr/bin/python
+#    This is a component of AXIS, a front-end for LinuxCNC
+#    Copyright 2004, 2005, 2006, 2007, 2008, 2009
+#    Jeff Epler <jepler@unpythonic.net> and Chris Radek <chris@timeguy.com>
+#
+#    This program is free software; you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License as published by
+#    the Free Software Foundation; either version 2 of the License, or
+#    (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU General Public License for more details.
+#
+#    You should have received a copy of the GNU General Public License
+#    along with this program; if not, write to the Free Software
+#    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+
 
 # import pdb
 
@@ -13,7 +31,7 @@ sys.path.insert(0, os.path.join(BASE, "lib", "python"))
 sys.excepthook = sys.__excepthook__
 
 import gettext;
-gettext.install("linuxcnc", localedir=os.path.join(BASE, "share", "locale"), unicode=True)f not, write to the Free Software
+gettext.install("linuxcnc", localedir=os.path.join(BASE, "share", "locale"), unicode=True)
 
 import array, time, atexit, tempfile, shutil, errno, thread, select, re, getopt
 import traceback
@@ -1784,22 +1802,32 @@ class TclCommands(nf.TclCommands):
     def program_verify(*args):
         set_first_line(-1)
         commands.task_run()
-
+    def ret_line(number):
+        f = open('/home/nkp/temp_rev.ngc', "r")
+        lines = f.readlines()
+        f.close()
+        if number >= 0:
+            return lines[number]
+    
     def zoomin(event=None):
                 commands.task_stop()
-#                c.set_block_delete(0)
+
         	ensure_mode(linuxcnc.MODE_MDI)
-
-
-		commands.send_mdi_command("G1 F40 X5 Y0")
-
-		commands.send_mdi_command("G1 F40 X0 Y5")
-		 
-		commands.send_mdi_command("G1 F40 X0 Y0")
-		
+                num = int(comp["curent-line"]) - 2
+                
+                while num >= 0 :
+		    commands.send_mdi_command(commands.ret_line(num))
+		    num -= 1
+	
 
     def zoomout(event=None):
-        o.zoomout()
+                commands.task_stop()
+                c.mode(linuxcnc.MODE_AUTO)
+                c.wait_complete() 
+                num = int(comp["curent-line"])
+                c.auto(linuxcnc.AUTO_RUN , (num))
+                
+                
 
     def set_view_x(event=None):
         widgets.view_z.configure(relief="link")
@@ -3110,6 +3138,7 @@ if hal_present == 1 :
     comp.newpin("notifications-clear",hal.HAL_BIT,hal.HAL_IN)
     comp.newpin("notifications-clear-info",hal.HAL_BIT,hal.HAL_IN)
     comp.newpin("notifications-clear-error",hal.HAL_BIT,hal.HAL_IN)
+    comp.newpin("curent-line",hal.HAL_FLOAT,hal.HAL_IN)
     vars.has_ladder.set(hal.component_exists('classicladder_rt'))
 
     if vcp:
