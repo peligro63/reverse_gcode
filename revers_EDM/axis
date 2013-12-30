@@ -1802,33 +1802,26 @@ class TclCommands(nf.TclCommands):
     def program_verify(*args):
         set_first_line(-1)
         commands.task_run()
+        
     def ret_line(number):
-        f = open('/home/nkp/temp_rev.ngc', "r")
+        f = open('/home/nkp/temp_rev.ngc', "r") #here prepared code(revers Gcode)
         lines = f.readlines()
         f.close()
         if number >= 0:
             return lines[number]
     
     def zoomin(event=None):
-                commands.task_stop()
-
-        	ensure_mode(linuxcnc.MODE_MDI)
-                num = int(comp["curent-line"]) - 2
-                
-                while num >= 0 :
-		    commands.send_mdi_command(commands.ret_line(num))
-		    num -= 1
+        global num_curent_line 
+        num_curent_line = int(comp["curent-line"]) - 1
+        commands.task_stop()
+        ensure_mode(linuxcnc.MODE_MDI)
 	
-
     def zoomout(event=None):
-                commands.task_stop()
-                c.mode(linuxcnc.MODE_AUTO)
-                c.wait_complete() 
-                num = int(comp["curent-line"])
-                c.auto(linuxcnc.AUTO_RUN , (num))
+        global num_curent_line 
+        commands.send_mdi_command(commands.ret_line(num_curent_line))
+        print 'comand:',commands.ret_line(num_curent_line), 'curent line:', num_curent_line
+        num_curent_line -= 1
                 
-                
-
     def set_view_x(event=None):
         widgets.view_z.configure(relief="link")
         widgets.view_z2.configure(relief="link")
