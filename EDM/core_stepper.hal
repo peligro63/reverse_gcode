@@ -8,7 +8,7 @@ addf motion-controller servo-thread
 addf stepgen.update-freq servo-thread
 
 
-loadrt classicladder_rt numPhysInputs=15 numPhysOutputs=15 numS32in=10 numS32out=10 numFloatIn=10 numFloatOut=10
+loadrt classicladder_rt numPhysInputs=15 numPhysOutputs=15 numS32in=10 numS32out=10 numFloatIn=10 numFloatOut=10 numTimersIec=20
 loadusr classicladder   EDM.clp
 addf classicladder.0.refresh servo-thread
 
@@ -39,29 +39,3 @@ loadusr -Wn rev python rev.py
 loadrt   minmax 
 addf     minmax.0    servo-thread
 net line  motion.program-line  minmax.0.in
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
- 
-
