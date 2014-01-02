@@ -5,22 +5,9 @@ The contents of this file will not be overwritten when you run stepconf again.
 -->
 <pyvcp>
 <vbox>
-
-<button>
-    <halpin>"stop"</halpin>
-    <text>"stop"</text>
-</button>
-
-</vbox>
-
-<button>
-    <halpin>"rev"</halpin>
-    <text>"rev"</text>
-</button>
-
 <checkbutton>
     <halpin>"rerev"</halpin>
-    <text>"rerev"</text>
+    <text>"revers"</text>
 </checkbutton>
-
+</vbox>
 </pyvcp>
