@@ -1,17 +1,16 @@
 net stopgcode    rev.stop      classicladder.0.out-02 
 net revgcode     rev.rev       classicladder.0.out-00
 net rerevgcode   classicladder.0.in-02    pyvcp.rerev  #иммитация замыкания
-net again_forward     rev.rerev       classicladder.0.out-06 
 
-#net program-line minmax.0.max  rev.curent-line
+net rerev-stop       rev.rerev-stop          classicladder.0.out-06 
+net again_forward    rev.again_forward       classicladder.0.out-07
 
-net  edge-in   classicladder.0.in-01       rev.minmax-reset  
-net  edge-out  classicladder.0.out-01      minmax.0.reset 
+net  edge-in   classicladder.0.in-01        rev.minmax-reset  
+net  edge-out  classicladder.0.out-01       minmax.0.reset 
 
 net program-is-idle  halui.program.is-idle  classicladder.0.in-03
 
-net run-line classicladder.0.s32out-00  rev.curent-line   #номер строки  передаем в скрипт
-net program-line minmax.0.max  classicladder.0.s32in-00     #предустановка счетчика(номер текущей строки)
+net run-line     classicladder.0.s32out-00  rev.curent-line   #номер строки  передаем в скрипт
+net program-line minmax.0.max  classicladder.0.s32in-00       #предустановка счетчика(номер текущей строки)
                                
-
 
